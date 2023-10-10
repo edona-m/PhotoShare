@@ -1,0 +1,58 @@
+<!-- author ben lawson (balawson@bu.edu) -->
+
+<head>
+    <title>Manage Photos</title>
+</head>
+
+<body>
+    {% if delete %}
+    <div class="title">
+        <h1>Delete a photo?</h1>
+    </div>
+    {% if photos %}
+        <h2>Your photos</h2>
+        <ul>
+            {% for photo in photos %}
+            <li>
+                <img src='data:image/jpg;base64, {{ base64.b64encode(photo[0]).decode("ascii") }}' /><br>
+                Photo ID: {{ photo[1] }}<br>
+                Caption: {{ photo[2] }}<br>
+                Album: {{ photo[3] }}<br>
+                Tag(s): {% for tag in photo[-1] %} {{ tag }}{% if tag != photo[-1][-1] %}, {% endif %} {% endfor %}<br>
+            </li>
+            <hr>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" action="/upload/delete">
+        <label for="photoID">Which Photo would oyu like to delete?:</label>
+        <input type="name" name="photoID" required='true' placeholder="Enter photo ID.." />
+        <input type="submit" value="Upload" />
+    </form>
+    <a href='/upload'>Upload a photo</a>
+    {% else %}
+    <div class="title">
+        <h1>Upload a photo to Photoshare!</h1>
+    </div>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+        <label for="photo">Select photo:</label>
+        <input type="file" name="photo" required='true' /><br />
+        <label for="caption">Caption your photo:</label>
+        <input type="text" name="caption" required='true' /><br />
+        <label for="album">Choose an album:</label>
+        <input type="text" name="album" required='true' /><br />
+        <label for="tag">Tag your Photo:</label>
+        <input type="text" name="tag" placeholder="Separate with commas" /><br />
+        <input type="submit" value="Upload" />
+    </form>
+    <details>
+        <summary>Albums List</summary>
+        <ul id="albumList">
+            {% for album in albumList %}
+            <li><a>{{ album[1] }} (Album ID: {{album[0]}})</a></li>
+            {% endfor %}
+        </ul>
+    </details>
+    <a href='/upload/delete'>Delete a photo?</a>
+    {% endif %}
+</body>

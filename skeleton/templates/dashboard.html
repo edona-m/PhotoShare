@@ -1,0 +1,74 @@
+<h1>Dashboard</h1>
+<style>
+    body {
+      background-color: #FFB6C1;
+    }
+    </style>
+
+{% if message %}
+  <h4>{{message}}!</h4>
+{% endif %}
+
+{% if photos %}
+<h2>All User photos!</h2>
+    <form method="post">
+        <label for="searchTag">Search by tags:</label>
+        <input type="text" name="searchTag" placeholder="Separate tags by comma" />
+        <input type="submit">
+    </form>
+    <ul>
+    {% for photo in photos %}
+      <li>
+        <img src='data:image/jpg;base64, {{ base64.b64encode(photo[0]).decode("ascii") }}'/><br>
+        Photo ID: {{ photo[1] }}<br>
+        Caption: {{ photo[2] }}<br>
+        Album: {{ photo[3] }}<br>
+        Uploaded by: {{ photo[4] }}<br>
+        Tag(s): {% for tag in photo[-1] %} {{ tag }}{% if tag != photo[-1][-1] %}, {% endif %} {% endfor %}<br>
+        Comments:
+        <ul>
+            {% for comment in photo[-2] %}
+            <li>
+                {{comment[0]}} - by {{comment[2]}} at {{comment[1]}}
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% for likes in numLikes %}
+            {% if likes[0] == photo[1] %}
+                <li>{{ likes[1]}} likes</li>
+            {% endif %}
+        {% endfor %}
+      </li>
+      <hr>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if popularTags %}
+    <h3>Most popular tag(s): {% for tag in popularTags %}{{ tag[2] }}{% if tag != popularTags[-1]%}, {% endif %}{% endfor %}</h3>
+{% endif %}
+
+{% if current_user.is_authenticated %}
+<form method="post">
+    <label for="commentPhotoID">Which photo would you like to comment on? enter the ID:</label>
+    <input type="text" name="commentPhotoID" placeholder="Enter Photo ID.." required='true' /><br>
+    <label for="comment">Comment text:</label>
+    <input type="text" name="comment" required='true'/>
+    <input type="submit">
+</form>
+
+<form method="post">
+      <label for="likePhotoID">Which photo do you want to like? Enter the ID:</label>
+      <input type="integer" name="likePhotoID", placeholder="Enter Photo ID.." required='true'/>
+      <input type="submit" name="like"/>
+</form>
+{% endif %}
+
+<ul>
+    <li><a href='/login'>Login</a></li>
+    <li><a href='/register'>Register</a></li>
+    <li><a href='/dashboard'>Dashboard</a></li>
+    <li><a href="/recommendations">Recommendations</a></li>
+    <li><a href='/'>Home</a></li>
+</ul>

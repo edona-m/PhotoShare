@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1> Mutual Friends </h1>
+ {% if data %}
+ <ul id="Mutual List">
+  {% for friend in data %}
+    <li><a>{{ friend }}</a></li>
+  {% endfor %}  
+</ul>
+ {% endif %}
+
+ <h1>Your Top 3 Tags are </h1>
+ {% if tags %}
+  <ul id="Top 3 Tags">
+    {% for tag in tags %}
+      <li><a>{{ tag }}</a></li>
+    {% endfor %}
+    
+  </ul>
+  {% endif %}
+
+</body>
+</html>
+
+
+  <ul>
+    <li><a href='/album'>Manage albums</a> </li>
+    <li><a href='/upload'>Manage photos</a> </li>
+    <li><a href='/dashboard'>Dashboard</a></li>
+    <li><a href='/logout'>Logout</a></li>
+    <li><a href='/'>Home</a></li>
+  </ul>
+  
+    
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+

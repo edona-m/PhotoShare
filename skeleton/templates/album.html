@@ -1,0 +1,46 @@
+<head>
+    <title>Album Management</title>
+</head>
+    <body>
+        {% if delete %}
+            <div class="title">
+                <h1>Which album would you like to delete? </h1>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="/album/delete">
+                <label for="albumID">Album Name:</label>
+                <input type="name" name="albumID" required='true' placeholder="Enter Album ID.." /><br />
+                <input type="submit" value="Upload" />
+            </form>
+
+            <summary>Your Albums</summary>
+            <ul id="albumList">
+                {% for album in albumList %}
+                <li><a>{{ album[1] }} (Album ID: {{album[0]}})</a></li>
+                {% endfor %}
+            </ul>
+            
+            <a href='/album'>Create an album?</a> 
+        {% else %}
+            <div class="title">
+                <h1>Create an album for your photos!</h1>
+            </div>
+            <form method="post" enctype="multipart/form-data" action="/album">
+                <label for="album">Album Name:</label>
+                <input type="name" name="albumName" required='true' /><br />
+                <input type="submit" value="Upload" />
+            </form>
+            
+            <a href='/album/delete'>Delete an album?</a> 
+        {% endif %}
+    </body>
+    <ul>
+        <li><a href='/album'> View and Manage your albums</a> </li>
+        <li><a href='/upload'>View and Manage your photos</a> </li>
+        
+        
+        <li><a href='/dashboard'>Back to the Dashboard</a></li>
+        <li><a href='/logout'>Logout</a></li>
+        <li><a href="/recommendations">View your Recommendations</a></li>
+        <li><a href='/'>Home</a></li>
+        </ul>
+        

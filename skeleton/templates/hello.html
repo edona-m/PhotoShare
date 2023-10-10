@@ -1,0 +1,95 @@
+
+<!doctype html>
+
+<style>
+body {
+  background-color: #FFC0CB;
+}
+</style>
+
+
+{% if message %}
+  <h4>{{message}}!</h4>
+{% endif %}
+<title>Photoshare</title>
+{% if name %}
+  <h1>Hello {{ name }}!</h1>
+{% endif %}
+
+{% if photos %}
+<h2>Photos you've posted:</h2>
+  <form method="post">
+    <label for="searchTag">Search your photo by tags:</label>
+    <input type="text" name="searchTag" placeholder="Separate tags by comma" />
+    <input type="submit">
+  </form>
+  <ul>
+  {% for photo in photos %}
+    <li>
+      <img src='data:image/jpg;base64, {{ base64.b64encode(photo[0]).decode("ascii") }}'/><br>
+      Photo ID: {{ photo[1] }}<br>
+      Caption: {{ photo[2] }}<br>
+      Album: {{ photo[3] }}<br>
+      Tag(s): {% for tag in photo[-1] %} {{ tag }}{% if tag != photo[-1][-1] %}, {% endif %} {% endfor %}<br>
+      Comments:
+      <ul>
+          {% for comment in photo[-2] %}
+          <li>
+              {{comment[0]}} - by {{comment[2]}} at {{comment[1]}}
+          </li>
+          {% endfor %}
+      </ul>
+    </li>
+    <hr>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+{% if message is none %}
+  <p>Try to  <a href='/login'>login?</a></p>
+{% else %}
+  <p> Go to your <a href='/profile'>profile?</a></p>
+  {% if profile %}
+    <p>
+      <form method="post">
+        <label for="friendEmail">Add friend:</label>
+        <input type="email" name="friendEmail" placeholder="friend@email.com" />
+        <input type="submit">
+      </form>
+    </p>
+    <details>
+      <summary>Your Friends:</summary>
+      <ul id="freindsList">
+        {% for friend in list %}
+          <li><a>{{ friend }}</a></li>
+        {% endfor %}  
+      </ul>
+    </details>
+   
+  {% endif %}
+{% endif %}
+
+<hr class="solid">
+
+{% if contributionList %}
+  <h2>
+    Top 10 Users!
+  </h2>
+  <ol>
+    {% for item in contributionList %}
+      <li>{{ item[0] }} - {{ item[1] }} contributions</li>
+      {% endfor %}
+  </ol>
+  <hr>
+{% endif %}
+
+<ul>
+<li><a href='/album'> Manage your albums</a> </li>
+<li><a href='/upload'>Manage your photos</a> </li>
+
+
+<li><a href='/dashboard'>Back to the Dashboard</a></li>
+<li><a href='/logout'>Logout</a></li>
+<li><a href="/recommendations">View your Recommendations</a></li>
+<li><a href='/'>Home</a></li>
+</ul>
